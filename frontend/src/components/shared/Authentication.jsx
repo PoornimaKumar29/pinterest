@@ -1,7 +1,7 @@
 import { SignIn } from '@clerk/clerk-react'
 const Authentication = () => {
   return (
-    <div className=' bg-gradient-to-br from-[#f9ce34]/20 via-[#ee2a7b]/20 to-[#6228d7]/20'>
+    <div className=' bg-gradient-to-br from-[#f9fafb]/20 to-[#dc2626]/30'>
 
       {/* Setting max-width for the container */}
       <div className="max-w-screen-lg mx-auto">
@@ -14,13 +14,13 @@ const Authentication = () => {
             
             {/* Column1 */}
             <div className=''>
-              {/* <img src="/auth.png" alt="banner image" className='lg:w-full' /> */}
+              <img src="/pinterest.svg" alt="banner image" className='lg:w-md h-3/4 w-3/4 pt-10  ' />
             </div>
 
             {/* Column2 */}
             <div className="flex flex-col items-center justify-center gap-2.5">
-              <img src="/logo.png" alt="logo" className="w-[200px] rounded-lg"/>
-              <p className='text-neutral-500 text-center'>Pinterest</p>
+             
+              <p className='text-neutral-500 text-center text-grey-900 text-2xl'>Welcome to Pinterest Clone</p>
               <div className='mt-5'>
                 <SignIn />
               </div>

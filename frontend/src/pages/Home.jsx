@@ -1,6 +1,6 @@
 // HOME PAGE 
 import NewsFeed from '@/components/home/NewsFeed'
-import Sidebar from '@/components/shared/Sidebar'
+import Sidebar from '@/components/shared/header'
 import React from 'react'
 
 const Home = () => {

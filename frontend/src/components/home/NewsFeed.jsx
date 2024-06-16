@@ -1,100 +1,161 @@
+
+
 import axios from "axios";
-import { BookmarkIcon, HeartIcon, MessageCircleIcon, MoreHorizontal, SendIcon, User } from "lucide-react";
 import { useEffect, useState } from "react";
+import Masonry from 'react-masonry-css';
 import { Separator } from "../shad/ui/separator";
 import Stories from "./Stories";
 import SideContent from "./SideContent";
+
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 const NewsFeed = () => {
   const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filterData, setFilterData] = useState([]);
+  const [hoveredPost, setHoveredPost] = useState(null);
 
-  // Going to fetch my posts from my DB
   useEffect(() => {
-    // Data fetching
     async function fetchPosts() {
-      const { data } = await axios.get(`${SERVER_URL}/insta-post`);
-      setPosts(data.posts);
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/insta-post`);
+        setPosts(data.posts);
+        setFilterData(data.posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
       }
-    fetchPosts()
+    }
+    fetchPosts();
   }, []);
-  
+
+  const filterHandler = (event) => {
+    const filterValue = event.target.value;
+    const filtered = posts.filter(post =>
+      post.caption.toLowerCase().includes(filterValue.toLowerCase()) ||
+      post.location.toLowerCase().includes(filterValue.toLowerCase())
+    );
+    setFilterData(filtered);
+  };
+
+  const handleSave = async (post) => {
+    try {
+      await axios.post(`${SERVER_URL}/insta-post/save-post`, { postId: post._id });
+      alert("Post saved successfully!");
+    } catch (error) {
+      console.error("Error saving post:", error.response || error.message);
+      alert("Failed to save the post. Check the console for more details.");
+    }
+  };
+
+  const handleDelete = async (post) => {
+    try {
+      await axios.delete(`${SERVER_URL}/insta-post/delete-post/${post._id}`);
+      setFilterData(prevData => prevData.filter(p => p._id !== post._id));
+      alert("Post deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting post:", error.response || error.message);
+      alert("Failed to delete the post. Check the console for more details.");
+    }
+  };
+
+  const handleEdit = (post) => {
+    console.log("Edit post:", post);
+  };
+
   return (
-    <div className="flex w-full pl-[250px] justify-center gap-10 mt-4">
-    {/* Center Content */}
-    <div className="flex flex-col items-center justify-center">
-      <div>
-        <Stories />
-        </div>
-        <div className="flex flex-col gap-4 items-center justify-center">
-          {posts.map((post, i) => (
-            
-              <div key={i}>
-              <div className="flex flex-col gap-2">
-                {/* User_pic,location, created_at and actions */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-x-3">
-                    <w-10 h-10 rounded-full />
-                     <img src={post?.userId?.photo} alt="user photo" className="w-10 h-10 rounded-full" />
-                    <div className="flex flex-col gap-0">
-                    <p className="text-sm font-medium">{post?.userId?.firstName + " " + post?.userId?.lastName}</p>
-                      <p className="text-[10px] text-gray">
-                        {post.location}
-                      </p>
-                    </div>
-                    <span className="text-gray text-[12px]">•</span>
-                    <p className="text-gray text-[12px]">4d</p>
-                  </div>
-
-                  <div>
-                    <MoreHorizontal />
-                  </div>
+    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <input
+        style={{
+          width: '80%',
+          border: '1px solid #ccc',
+          borderRadius: '8px',
+          padding: '10px',
+          marginBottom: '20px'
+        }}
+        placeholder="Search"
+        onChange={filterHandler}
+      />
+      <Masonry
+        breakpointCols={{
+          default: 6,
+          1100: 4,
+          700: 2,
+          500: 1
+        }}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+        style={{ display: 'flex', width: '100%', marginLeft: '-15px' }}
+      >
+        {filterData.map((post, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'relative',
+              marginBottom: '15px',
+              paddingLeft: '15px',
+              breakInside: 'avoid',
+              borderRadius: '12px',
+              overflow: 'hidden'
+            }}
+            onMouseEnter={() => setHoveredPost(i)}
+            onMouseLeave={() => setHoveredPost(null)}
+          >
+            <img
+              src={post.imgUrl}
+              alt="postImage"
+              style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block', borderRadius: '12px' }}
+            />
+            {hoveredPost === i && (
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                color: 'white',
+                // borderRadius: '170px',
+                padding: '10px'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end'
+                }}>
+                  <button className="rounded-full" onClick={() => handleSave(post)} style={buttonStyle('black')}>Save</button>
                 </div>
-
-                {/* Image */}
-                
-                   {/* Image and Likes */}
-                <div className="flex flex-col gap-2">
-                  <img
-                    src={post.imgUrl}
-                    alt="postImage"
-                    className="w-[468px] h-full object-cover object-center rounded-sm"
-                  />
-                  {/* Likes */}
-                  <div className="flex justify-between p-2">
-                    <div className="flex gap-4">
-                      <HeartIcon />
-                      <MessageCircleIcon />
-                      <SendIcon />
-                    </div>
-                    <div>
-                      <BookmarkIcon />
-                    </div>
-                  </div>
-
-                  {/* Like counts */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-neutral-300" />
-                    <p className="text-neutral-600 text-sm">
-                      <span className="font-medium text-black">1,826</span> Likes
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 text-[12px]">
-                  <p className="font-medium">Name</p>
-                  <p>{post.caption}</p>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  gap: '10px'
+                }}>
+                  <button onClick={() => handleEdit(post)} style={buttonStyle('black')}>Edit</button>
+                  <button onClick={() => handleDelete(post)} style={buttonStyle('red')}>Delete</button>
                 </div>
               </div>
-              <Separator />
-            </div>
-          ))}
-        </div>
-      </div>
+            )}
+          </div>
+        ))}
+      </Masonry>
 
-      {/* Side Content */}
       <SideContent />
     </div>
   );
 };
+
+const buttonStyle = (color) => ({
+  padding: '8px 16px',
+  borderRadius: '5px',
+  backgroundColor: color,
+  border: 'none',
+  cursor: 'pointer',
+  color: '',
+  fontSize: '12px',
+  opacity: 0.8,
+  transition: 'opacity 0.3s',
+  margin: '3px',
+});
 
 export default NewsFeed;

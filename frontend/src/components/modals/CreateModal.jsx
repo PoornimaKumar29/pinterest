@@ -51,9 +51,9 @@ const CreateModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="w-full p-3 rounded-lg flex gap-4 items-center hover:cursor-pointer hover:bg-neutral-200/50 transition-all focus-visible:outline-none">
-        <PlusSquare />
-        <p className="text-neutral-800 sidebar:block hidden">Create</p>
+      <DialogTrigger className="w-full p-3 rounded-lg flex gap-4 items-center hover:bg-black  ">
+        {/* <PlusSquare /> */}
+        <p className=" sidebar:block hidden text-neutral-800 hover:cursor-pointer hover:bg-black hover:text-white transition-all">Create</p>
       </DialogTrigger>
       {postData.imgUrl ? (
         <AdditionalInfo

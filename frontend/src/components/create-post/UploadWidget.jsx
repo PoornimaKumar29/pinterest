@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { DialogContent, DialogHeader } from '../shad/ui/dialog'
 import { Separator } from '../shad/ui/separator'
-import { UploadCloud } from 'lucide-react'
+import { ArrowUp, ArrowUpCircleIcon, UploadCloud } from 'lucide-react'
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL 
 
@@ -34,16 +34,16 @@ const UploadWidget = ({ postData, setPostData }) => {
   
   return (
     <DialogContent>
-      <DialogHeader className="mx-auto">Create New Post</DialogHeader>
+      <DialogHeader className="mx-auto">Create Pins</DialogHeader>
       <Separator />
-      <div className="flex flex-col gap-4 items-center justify-center h-[500px]">
-        <UploadCloud className="w-16 h-16 text-neutral-600" />
-        <p className="font-semibold text-sm">
-          Drag photos and video here
+      <div className="flex flex-col gap-4  item-center justify-center h-[500px]">
+        <ArrowUpCircleIcon className=" mx-auto w-11 h-11 text-neutral-600" />
+        <p className="font-semibold text-sm text-center">
+         choose a file  or drag and drop it here
         </p>
-      <Button className="cursor-pointer" size="sm" variant="blue" asChild>
+      <Button className="cursor-pointer" size="sm"  variant="" >
         <div className='cursor-pointer'>
-          <label className='cursor-pointer' htmlFor='upload'>Select from computer</label>
+          <label className='cursor-pointer ' htmlFor='upload'>Select Pin</label>
           <input type='file' id='upload' onChange={(e) => handleChange(e)} accept=".jpg, .jpeg, .png" hidden />
         </div>
       </Button>

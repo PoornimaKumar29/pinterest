@@ -7,41 +7,79 @@ import { Button } from '../shad/ui/button'
 const SearchSheet = ({ icon: Icon, title }) => {
 
   return (
-    <Sheet>
-      <SheetTrigger className='w-full p-3 rounded-sidebar flex gap-4 items-center hover:cursor-pointer hover:bg-neutral-200/50 transition-all'>
-        <Icon />
-        {title}
-      </SheetTrigger>
-      <SheetContent side="left" className="ml-[250px] z-[9]">
+    // <Sheet>
+    //   <SheetTrigger className='w-full p-3 rounded-sidebar flex gap-4 items-center hover:cursor-pointer hover:bg-neutral-200/50 transition-all'>
+    //     <Icon />
+    //     {title}
+    //   </SheetTrigger>
+    //   <SheetContent side="left" className="ml-[250px] z-[9]">
 
-        <SheetHeader>
-          <SheetTitle>Search</SheetTitle>
-          <SheetDescription >
-            <Input 
-              type="text"
-              placeholder="Search"
-              className="mt-6"
-            />
-          </SheetDescription>
-        </SheetHeader>
+    //     <SheetHeader>
+    //       <SheetTitle>Search</SheetTitle>
+    //       <SheetDescription >
+    //         <Input 
+    //           type="text"
+    //           placeholder="Search"
+    //           className="mt-6"
+    //         />
+    //       </SheetDescription>
+    //     </SheetHeader>
 
-        <Separator className="mt-6" />
+    //     <Separator className="mt-6" />
 
-        {/* Search Results */}
-        <div className='flex flex-col gap-4 mt-6'>
-          <div className='flex items-center justify-between w-full'>
-            <h3>Recent</h3>
-            <Button variant="link" className="text-blue hover:no-underline hover:text-cyan-800">
-              Clear all
-            </Button>
-          </div>
-          <div>
-            Search Results
-          </div>
-        </div>
+    //     {/* Search Results */}
+    //     <div className='flex flex-col gap-4 mt-6'>
+    //       <div className='flex items-center justify-between w-full'>
+    //         <h3>Recent</h3>
+    //         <Button variant="link" className="text-blue hover:no-underline hover:text-cyan-800">
+    //           Clear all
+    //         </Button>
+    //       </div>
+    //       <div>
+    //         Search Results
+    //       </div>
+    //     </div>
 
-      </SheetContent>
-    </Sheet>
+    //   </SheetContent>
+    // </Sheet>
+
+
+  <Sheet>
+  <SheetTrigger className='w-full p-3 rounded flex gap-4 items-center hover:text-white hover:cursor-pointer hover:bg-black transition-all '>
+    <Icon />
+    
+   {title}
+  </SheetTrigger>
+  <SheetContent side="top" className="fixed top-[60px] left-0 right-0 z-[9] flex flex-col bg-white p-6 rounded-t-lg  mr-10 ml-10">
+    <SheetHeader>
+      <SheetTitle>Search</SheetTitle>
+      <SheetDescription>
+        <Input 
+          type="text"
+          placeholder="Search"
+          className="mt-6"
+        />
+      </SheetDescription>
+    </SheetHeader>
+
+    <Separator className="mt-6" />
+
+    {/* Search Results */}
+    <div className='flex flex-col gap-4 mt-6'>
+      <div className='flex items-center justify-between w-full'>
+        <h3>Recent</h3>
+        <Button variant="link" className="text-blue hover:no-underline hover:text-cyan-800">
+          Clear all
+        </Button>
+      </div>
+      <div>
+        Search Results
+      </div>
+    </div>
+  </SheetContent>
+</Sheet>
+
+  
   )
 }
 

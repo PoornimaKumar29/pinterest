@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 const AdditionalInfo = ({ postData, setPostData, createPost, submitting }) => {
   return (
     <DialogContent className="lg:min-w-[800px] w-full">
-      <DialogHeader className="mx-auto">Additional Info</DialogHeader>
+      <DialogHeader className="mx-auto">Pin Details</DialogHeader>
       <Separator />
       <form onSubmit={createPost} className="mt-4 flex flex-col lg:flex-row gap-10 lg:gap-8">
 
@@ -21,10 +21,10 @@ const AdditionalInfo = ({ postData, setPostData, createPost, submitting }) => {
 
         <div className="w-full flex flex-col gap-6">
           <div className="w-full flex flex-col gap-3 ">
-            <Label htmlFor="caption">Caption</Label>
+            <Label htmlFor="caption">Tags</Label>
             <Textarea
               id="caption"
-              placeholder="I love a cozy evening!"
+              placeholder="#image #description"
               value={postData.caption}
               onChange={(e) =>
                 setPostData({
@@ -38,7 +38,7 @@ const AdditionalInfo = ({ postData, setPostData, createPost, submitting }) => {
             <Label htmlFor="location">Location</Label>
             <Input
               id="location"
-              placeholder="Ex: Tea Chamber"
+              placeholder="Ex: chennai bangalore "
               value={postData.location}
               onChange={(e) =>
                 setPostData({
@@ -50,7 +50,7 @@ const AdditionalInfo = ({ postData, setPostData, createPost, submitting }) => {
           </div>
           <div className="mt-auto w-full flex justify-end  gap-5">
             <Button variant="ghost" size="sm">
-              Cancel
+              Cancel Pin
             </Button>
 
             <Button variant="blue" size="sm" type="submit">
@@ -59,7 +59,7 @@ const AdditionalInfo = ({ postData, setPostData, createPost, submitting }) => {
                   <Loader2 className="w-4 h-4 animate-spin" />
                   Posting
                 </div>
-              ) : "Create Post"}
+              ) : "Create Pin"}
             </Button>
           </div>
         </div>

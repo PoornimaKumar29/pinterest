@@ -14,13 +14,13 @@ const Authentication = () => {
             
             {/* Column1 */}
             <div className=''>
-              <img src="/auth.png" alt="banner image" className='lg:w-full' />
+              {/* <img src="/auth.png" alt="banner image" className='lg:w-full' /> */}
             </div>
 
             {/* Column2 */}
             <div className="flex flex-col items-center justify-center gap-2.5">
-              <img src="/logo.svg" alt="logo" className="w-[200px]"/>
-              <p className='text-neutral-500 text-center'>Welcome to Insta Clone - March 24 Cybernaut Edu Tech LLP</p>
+              <img src="/logo.png" alt="logo" className="w-[200px] rounded-lg"/>
+              <p className='text-neutral-500 text-center'>Pinterest</p>
               <div className='mt-5'>
                 <SignIn />
               </div>

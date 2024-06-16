@@ -1,10 +1,9 @@
 
 
-import axios from "axios";
+
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Masonry from 'react-masonry-css';
-import { Separator } from "../shad/ui/separator";
-import Stories from "./Stories";
 import SideContent from "./SideContent";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -14,6 +13,7 @@ const NewsFeed = () => {
   const [search, setSearch] = useState('');
   const [filterData, setFilterData] = useState([]);
   const [hoveredPost, setHoveredPost] = useState(null);
+  const [savedPosts, setSavedPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -37,25 +37,16 @@ const NewsFeed = () => {
     setFilterData(filtered);
   };
 
-  const handleSave = async (post) => {
-    try {
-      await axios.post(`${SERVER_URL}/insta-post/save-post`, { postId: post._id });
-      alert("Post saved successfully!");
-    } catch (error) {
-      console.error("Error saving post:", error.response || error.message);
-      alert("Failed to save the post. Check the console for more details.");
-    }
+  const handleSave = (post) => {
+    setSavedPosts([...savedPosts, post]);
+    alert("Post saved successfully!");
   };
 
-  const handleDelete = async (post) => {
-    try {
-      await axios.delete(`${SERVER_URL}/insta-post/delete-post/${post._id}`);
-      setFilterData(prevData => prevData.filter(p => p._id !== post._id));
-      alert("Post deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting post:", error.response || error.message);
-      alert("Failed to delete the post. Check the console for more details.");
-    }
+  const handleDelete = (post) => {
+    const updatedPosts = filterData.filter(p => p._id !== post._id);
+    setFilterData(updatedPosts);
+    setPosts(posts.filter(p => p._id !== post._id));
+    alert("Post deleted successfully!");
   };
 
   const handleEdit = (post) => {
@@ -86,7 +77,7 @@ const NewsFeed = () => {
         columnClassName="my-masonry-grid_column"
         style={{ display: 'flex', width: '100%', marginLeft: '-15px' }}
       >
-        {filterData.map((post, i) => (
+        {filterData.length > 0 ? filterData.map((post, i) => (
           <div
             key={i}
             style={{
@@ -117,7 +108,6 @@ const NewsFeed = () => {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 color: 'white',
-                // borderRadius: '170px',
                 padding: '10px'
               }}>
                 <div style={{
@@ -137,7 +127,7 @@ const NewsFeed = () => {
               </div>
             )}
           </div>
-        ))}
+        )) : <div>No posts available</div>}
       </Masonry>
 
       <SideContent />
@@ -151,7 +141,7 @@ const buttonStyle = (color) => ({
   backgroundColor: color,
   border: 'none',
   cursor: 'pointer',
-  color: '',
+  color: 'white',
   fontSize: '12px',
   opacity: 0.8,
   transition: 'opacity 0.3s',
